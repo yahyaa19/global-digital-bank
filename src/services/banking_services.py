@@ -2,9 +2,11 @@
 # It acts as the middle layer between  the Account model (business rules)
 # and file_manager utilities (storage and logging).
 from models.account import Account
-from  utils.file_manager import load_accounts, save_accounts, log_transaction
+from utils.file_manager import load_accounts, save_accounts, log_transaction
+
 class BankingService:
     START_ACCOUNT_NO = 1001
+
     def __init__(self):
         # load accounts from file on starup
         self.accounts = load_accounts()
@@ -35,7 +37,8 @@ class BankingService:
         if account_type not in Account.MIN_BALANCE:
             # check if account type is valid
             return None , f"Invalid Account type. Choose from {list(Account.MIN_BALANCE.keys())}"
-        min_req = Account.MIN_BALANCE(account_type)
+        min_req = Account.MIN_BALANCE[account_type]
+
         if float(intial_deposit) < min_req:
             return None, f"Intial deposit must be at least {min_req}"
        
@@ -59,7 +62,7 @@ class BankingService:
         acc = self.get_account(account_number)
         if not acc:
             return False, "Account not Found"
-        if acc.staus != "Active":
+        if acc.status != "Active":
             return False , "Account is not Active"
        
         ok, msg = acc.deposit(amount)
@@ -72,7 +75,7 @@ class BankingService:
         acc = self.get_account(account_number)
         if not acc:
             return False, "Account not Found"
-        if acc.staus != "Active":
+        if acc.status != "Active":
             return False , "Account is not Active"
        
         ok, msg = acc.withdraw(amount)
