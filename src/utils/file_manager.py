@@ -30,12 +30,12 @@ def load_accounts():
             reader = csv.DictReader(f)
             for row in reader:
                 acc = Account(
-                    account_number=row["account_number"]
-                    name= row["name"]
-                    age=row["age"]
-                    account_type=row["account_type"]
-                    balance=row["balance"]
-                    status=row["status"]
+                    account_number= row["account_number"],
+                    name= row["name"],
+                    age=row["age"],
+                    account_type=row["account_type"],
+                    balance=row["balance"],
+                    status=row["status"],
                     pin=row["pin"] if row["pin"] else None
                 )
                 accounts[acc.account_number] = acc
