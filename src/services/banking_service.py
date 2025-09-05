@@ -96,3 +96,18 @@ class BankingService:
          log_transaction(acc.account_number, "CLOSE" , None, acc.balance)
          self.save_to_disk()
          return True , "Account closed succesfully"
+    
+    #searching by name
+    def search_by_name(self, name):
+        if not name.strip():
+            return [],"Name cannot be empty"
+       
+        results = []
+        for acc in self.accounts.values():
+            if name.lower() in acc.name.lower():
+                results.append(acc)
+
+        if not results:
+            return [], "No accounts found for the given name"
+        return results, f"Found {len(results)} accounts for the given name"
+        return results
