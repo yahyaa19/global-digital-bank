@@ -111,3 +111,10 @@ class BankingService:
             return [], "No accounts found for the given name"
         return results, f"Found {len(results)} accounts for the given name"
         return results
+    
+    #search by account number
+    def search_by_account_number(self, account_number):
+        acc = self.get_account(account_number)
+        if not acc:
+            return None, "Account not Found"
+        return acc, "Account found"

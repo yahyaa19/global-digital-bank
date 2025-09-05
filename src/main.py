@@ -13,6 +13,7 @@ def main():
         print("5) Close Account")
         print("6) Exit")
         print("7) Search by Name")
+        print("8) Search by Account Number")
 
         choice = input("Enter Choice: ")
 
@@ -58,6 +59,14 @@ def main():
             if results:
                 for acc in results:
                     print(acc)
+            else:
+                print(msg)
+
+        elif choice == "8":
+            acc_no = input("Enter account number to search: ")
+            acc, msg = bank.search_by_account_number(acc_no)
+            if acc:
+                print(acc)
             else:
                 print(msg)
 
