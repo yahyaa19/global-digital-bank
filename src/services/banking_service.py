@@ -114,6 +114,75 @@ class BankingService:
     
     #search by account number
     def search_by_account_number(self, account_number):
+        """Search for an account by account number"""
+        try:
+            acc_num = int(account_number)
+            acc = self.get_account(acc_num)
+            if not acc:
+                return None, f"No account found with number {acc_num}"
+            return acc, "Account found"
+        except ValueError:
+            return None, "Invalid account number format"
+    
+    def list_active_accounts(self):
+        """List all active accounts"""
+        active_accounts = [acc for acc in self.accounts.values() if acc.status == "Active"]
+        if not active_accounts:
+            return [], "No active accounts found"
+        return active_accounts, f"Found {len(active_accounts)} active account(s)"
+    
+    def list_closed_accounts(self):
+        """List all closed/inactive accounts"""
+        closed_accounts = [acc for acc in self.accounts.values() if acc.status == "Inactive"]
+        if not closed_accounts:
+            return [], "No closed accounts found"
+        return closed_accounts, f"Found {len(closed_accounts)} closed account(s)"
+    
+    def reopen_account(self, account_number):
+        """Reopen a closed account"""
+        acc = self.get_account(account_number)
+        if not acc:
+            return False, "Account not found"
+        
+        if acc.status == "Active":
+            return False, "Account is already active"
+        
+        acc.status = "Active"
+        log_transaction(acc.account_number, "REOPEN", None, acc.balance)
+        self.save_to_disk()
+        return True, "Account reopened successfully"
+    
+    def rename_account_holder(self, account_number, new_name):
+        """Rename the account holder"""
+        if not new_name.strip():
+            return False, "New name cannot be empty"
+        
+        acc = self.get_account(account_number)
+        if not acc:
+            return False, "Account not found"
+        
+        old_name = acc.name
+        acc.name = new_name.strip()
+        log_transaction(acc.account_number, "RENAME", None, acc.balance, 
+                       details=f"Name changed from '{old_name}' to '{new_name}'")
+        self.save_to_disk()
+        return True, f"Account holder name changed to {new_name}"
+    
+    def delete_all_accounts(self):
+        """Delete all accounts"""
+        if not self.accounts:
+            return False, "No accounts to delete"
+        
+        count = len(self.accounts)
+        self.accounts.clear()
+        self.next_account_number = BankingService.START_ACCOUNT_NO
+        self.save_to_disk()
+        return True, f"All {count} account(s) have been deleted"
+    
+    def count_active_accounts(self):
+        """Count the number of active accounts"""
+        active_count = sum(1 for acc in self.accounts.values() if acc.status == "Active")
+        return active_count, f"Total active accounts: {active_count}"
         acc = self.get_account(account_number)
         if not acc:
             return None, "Account not Found"
