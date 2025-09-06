@@ -17,7 +17,7 @@ class Account:
         self.account_type = account_type.title()
         if self.account_type not in Account.MIN_BALANCE:
             raise ValueError(f"Invalid account type: {self.account_type}")
-        self.balance = balance
+        self.balance = float(balance)
         self.status = status
         self.pin = pin
 
