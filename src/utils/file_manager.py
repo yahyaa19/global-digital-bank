@@ -32,8 +32,6 @@ def load_accounts():
             for row in reader:
                 acc = Account(
 
-                    
-
                     account_number= row["account_number"],
                     name= row["name"],
                     age=row["age"],

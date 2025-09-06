@@ -1,4 +1,6 @@
+
 from services.banking_service import BankingService
+
 
 def main():
     bank = BankingService()
@@ -8,6 +10,7 @@ def main():
     while True:
         print("\n--- Main Menu ---")
         print("Basic Operations:")
+
         print("1) Create Account")
         print("2) Deposit")
         print("3) Withdraw")
@@ -41,6 +44,7 @@ def main():
         print("23) Export Accounts to File (F18)")
         print("24) Import Accounts from File (F24)")
         print("25) Delete All Accounts (F22)")
+
 
 
         choice = input("Enter Choice: ")
@@ -78,6 +82,7 @@ def main():
             print(msg)
 
         elif choice == "6":
+
             # Exit with autosave
             ok, msg = bank.safe_exit()
             print(msg)
@@ -241,6 +246,7 @@ def main():
                 print(msg)
             else:
                 print("Operation cancelled")
+
 
         else:
             print("Invalid Choice.\n Try Again!!")
