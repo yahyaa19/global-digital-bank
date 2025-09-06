@@ -4,7 +4,9 @@ from datetime import datetime
 
 ACCOUNT_FILE = "../data/accounts.csv"
 TRANSACTIONS_FILE = "../data/transactions.log"
+
 DETAILED_TRANSACTIONS_FILE = "../data/detailed_transactions.log"
+
 
 def save_accounts(accounts):
     with open(ACCOUNT_FILE, "w", newline="") as f:
@@ -32,8 +34,6 @@ def load_accounts():
             for row in reader:
                 acc = Account(
 
-                    
-
                     account_number= row["account_number"],
                     name= row["name"],
                     age=row["age"],
@@ -47,6 +47,7 @@ def load_accounts():
     except FileNotFoundError:
         pass
     return accounts
+
 
 
 def log_transaction(account_number, operation, amount, balance_after, details=None):
@@ -152,3 +153,9 @@ def import_accounts_from_file(filename):
         return {}, f"File {filename} not found"
     except Exception as e:
         return {}, f"Error importing accounts: {e}"
+
+def log_transaction(account_number, operation, amount, balance_after):
+    with open(TRANSACTIONS_FILE, "a") as f:
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        f.write(f"{timestamp} | {account_number} | {operation} | {amount} | {balance_after}\n")
+

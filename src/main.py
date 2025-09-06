@@ -1,18 +1,29 @@
+
 from services.banking_service import BankingService
+
+from services.banking_services import BankingService
+
 
 def main():
     bank = BankingService()
     print("Welcome to GlobalDigital Bank")
+
     print("=== Complete Banking System with All Features ===")
 
     while True:
         print("\n--- Main Menu ---")
         print("Basic Operations:")
+
+
+    while True:
+        print("\n--- Main Menu ---")
+
         print("1) Create Account")
         print("2) Deposit")
         print("3) Withdraw")
         print("4) Balance Inquiry")
         print("5) Close Account")
+
         print("6) Exit with Autosave (F23)")
 
         print("\nSearch & Account Management:")
@@ -41,6 +52,9 @@ def main():
         print("23) Export Accounts to File (F18)")
         print("24) Import Accounts from File (F24)")
         print("25) Delete All Accounts (F22)")
+
+
+        print("6) Exit")
 
 
         choice = input("Enter Choice: ")
@@ -77,7 +91,7 @@ def main():
             ok, msg = bank.close_account(acc_no)
             print(msg)
 
-        elif choice == "6":
+
             # Exit with autosave
             ok, msg = bank.safe_exit()
             print(msg)
@@ -241,6 +255,10 @@ def main():
                 print(msg)
             else:
                 print("Operation cancelled")
+
+            print("Thank you for visiting GlobalDigital Bank")
+            break
+
 
         else:
             print("Invalid Choice.\n Try Again!!")
