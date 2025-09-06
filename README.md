@@ -92,9 +92,6 @@ src/
 └── utils/
     └── file_manager.py       # Enhanced file operations and logging
 
-tests/
-└── test_banking_features.py  # Comprehensive test suite
-
 data/
 ├── accounts.csv              # Account data storage
 ├── transactions.log          # Transaction log
@@ -107,12 +104,6 @@ data/
    ```bash
    cd src
    python main.py
-   ```
-
-2. **Run Tests**:
-   ```bash
-   cd src
-   python ../tests/test_banking_features.py
    ```
 
 ## 🔧 Configuration
