@@ -5,6 +5,48 @@ from models.account import Account
 from utils.file_manager import load_accounts, save_accounts, log_transaction
 
 class BankingService:
+    def search_by_name(self, name):
+        name = name.strip().lower()
+        return [acc for acc in self.accounts.values() if acc.name.lower() == name]
+
+    def search_by_account_number(self, account_number):
+        return self.accounts.get(int(account_number))
+
+    def list_active_accounts(self):
+        return [acc for acc in self.accounts.values() if acc.status == "Active"]
+
+    def list_closed_accounts(self):
+        return [acc for acc in self.accounts.values() if acc.status == "Inactive"]
+
+    def reopen_closed_account(self, account_number):
+        acc = self.get_account(account_number)
+        if not acc:
+            return False, "Account not Found"
+        if acc.status == "Active":
+            return False, "Account is already active"
+        acc.status = "Active"
+        log_transaction(acc.account_number, "REOPEN", None, acc.balance)
+        self.save_to_disk()
+        return True, "Account reopened successfully"
+
+    def rename_account_holder(self, account_number, new_name):
+        acc = self.get_account(account_number)
+        if not acc:
+            return False, "Account not Found"
+        if acc.status != "Active":
+            return False, "Account is not Active"
+        acc.name = new_name.strip()
+        log_transaction(acc.account_number, "RENAME", None, acc.balance)
+        self.save_to_disk()
+        return True, "Account holder renamed successfully"
+
+    def delete_all_accounts(self):
+        self.accounts.clear()
+        self.save_to_disk()
+        return True, "All accounts deleted"
+
+    def count_active_accounts(self):
+        return len([acc for acc in self.accounts.values() if acc.status == "Active"])
     START_ACCOUNT_NO = 1001
 
     def __init__(self):
@@ -43,14 +85,13 @@ class BankingService:
             return None, f"Intial deposit must be at least {min_req}"
        
         acc_no = self.next_account_number
-        acc = Account(acc_no, name,age, account_type, balance=float(intial_deposit))
+        acc = Account(acc_no, name, age, account_type, balance=float(intial_deposit))
         self.accounts[acc_no] = acc
         # 1001, 10002, 1003
         self.next_account_number += 1
- 
- 
+
         log_transaction(acc_no, "CREATE", intial_deposit, acc.balance)
-        self.save_to_disk()
+        self.save_to_disk()  # Persist accounts to CSV after creation
         return acc, "Account created succesfully"
    
  
