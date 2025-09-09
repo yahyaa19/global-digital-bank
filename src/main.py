@@ -19,6 +19,14 @@ def main():
         print("11) Rename Account Holder")
         print("12) Delete All Accounts")
         print("13) Count Active Accounts")
+        print("14) View Transaction History (per account)")
+        print("15) Transfer Funds (between accounts)")
+        print("16) Show Today's Transaction Total (per account)")
+        print("17) Top N Accounts by Balance")
+        print("18) Average Balance Calculator")
+        print("19) Youngest Account Holder")
+        print("20) Oldest Account Holder")
+        print("21) Simple Interest Calculator")
         print("0) Exit")
 
         choice = input("Enter Choice: ")
@@ -107,6 +115,58 @@ def main():
         elif choice == "13":
             count = bank.count_active_accounts()
             print(f"Active accounts count: {count}")
+
+        elif choice == "14":
+            acc_no = input("Enter account number to view history: ")
+            history = bank.get_transaction_history(acc_no)
+            if history:
+                print("\nTransaction History:")
+                for entry in history:
+                    print(entry)
+            else:
+                print("No transactions found for this account.")
+
+        elif choice == "15":
+            from_acc = input("Enter sender account number: ")
+            to_acc = input("Enter receiver account number: ")
+            amount = input("Enter amount to transfer: ")
+            ok, msg = bank.transfer_funds(from_acc, to_acc, amount)
+            print(msg)
+
+        elif choice == "16":
+            acc_no = input("Enter account number: ")
+            total = bank.get_today_total(acc_no)
+            print(f"Today's transaction total for account {acc_no}: {total}")
+
+        elif choice == "17":
+            n = input("Enter N (number of top accounts): ")
+            try:
+                n = int(n)
+            except:
+                n = 5
+            top_accounts = bank.top_n_accounts_by_balance(n)
+            print(f"Top {n} Accounts by Balance:")
+            for acc in top_accounts:
+                print(acc)
+
+        elif choice == "18":
+            avg = bank.average_balance()
+            print(f"Average balance (active accounts): {avg}")
+
+        elif choice == "19":
+            acc = bank.youngest_account_holder()
+            print(acc if acc else "No active accounts.")
+
+        elif choice == "20":
+            acc = bank.oldest_account_holder()
+            print(acc if acc else "No active accounts.")
+
+        elif choice == "21":
+            acc_no = input("Enter account number: ")
+            rate = input("Enter annual interest rate (%): ")
+            years = input("Enter number of years: ")
+            interest, msg = bank.simple_interest(acc_no, rate, years)
+            print(msg)
 
         elif choice == "0":
             print("Thank you for visiting GlobalDigital Bank")
