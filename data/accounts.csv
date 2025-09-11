@@ -1,0 +1,4 @@
+account_number,name,age,balance,account_type,status,pin,failed_attempts
+1001,Vikas S,20,176995.0,Savings,Active,2005,0
+1002,Kusuma S,18,54005.0,Savings,Active,12345,0
+1003,Chinmayi S,21,9000.0,Savings,Active,1111,0
