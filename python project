@@ -1,0 +1,5 @@
+account_number,name,age,account_type,balance,status,pin
+000001,shreyas,25,Current,1000.0,Active,
+000002,chiddu,20,Savings,2000.0,Active,
+000003,pavan m,20,Current,2000.0,Active,
+000004,arun,25,Savings,5000.0,Active,
